@@ -4,6 +4,9 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    private const SEEDERS = [
+        PostsTableSeeder::class,
+    ];
     /**
      * Seed the application's database.
      *
@@ -11,6 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(PostSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(MessagesSeeder::class);
+        $this->call(DirectMessagesSeeder::class);
+        $this->call(ReviewsSeeder::class);
     }
 }
