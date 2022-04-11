@@ -1,11 +1,18 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    use SoftDeletes;
+    protected $fillable = [
+    'title',
+    'body'
+    ];
+    
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -14,10 +21,5 @@ class Post extends Model
     public function directmessages()
     {
         return $this->hasMany(DirectMessage::class);
-    }
-    
-    public function users()
-    {
-        return $this->morphToMany(User::class, 'like');
     }
 }

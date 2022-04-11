@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,6 +10,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('posts', 'PostController')->middleware('auth');
+
+Auth::routes();
+
+Route::get('/', 'PostController@index')->name('index');

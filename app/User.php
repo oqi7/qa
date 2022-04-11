@@ -68,9 +68,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class);
     }
-    
-    public function posts()
-    {
-        return $this->morphToMany(Post::class, 'like');
-    }
 }
