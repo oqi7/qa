@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','profile_image'
     ];
 
     /**
@@ -60,12 +60,21 @@ class User extends Authenticatable
     
     public function posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany('App\Like');
     }
-    
     
     public function messages()
     {
         return $this->hasMany(Message::class);
+    }
+    
+    public function likes() 
+    {
+        return $this->hasMany('App\Like');
+    }
+    
+    public function getAllUsers(Int $user_id)
+    {
+        return $this->Where('id', '<>', $user_id)->paginate(5);
     }
 }

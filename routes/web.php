@@ -9,8 +9,17 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::resource('posts', 'PostController')->middleware('auth');
+Route::group(['middleware' => 'auth'], function() {
+    
+    Route::resource('users', 'UsersController');
+    
+    Route::resource('posts', 'PostController');
+    
+    Route::resource('likes', 'LikeController');
+    
+    Route::resource('teaches', 'TeachController');
+    
+});
 
 Auth::routes();
 

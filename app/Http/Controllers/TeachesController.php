@@ -3,25 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use App\User;
 use App\Post;
+use App\Teach;
 
-class UsersController extends Controller
+class TeachesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index()
     {
-        $all_users = $user->getAllUsers(auth()->user()->id);
-
-        return view('users.index', [
-            'all_users'  => $all_users
-        ]);
+        //
     }
 
     /**
@@ -40,9 +34,17 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Teach $teach)
     {
-        //
+        $user = auth()->user();
+        $post_id = $request->post_id;
+        $is_teach = $teach->isTeach($user->id, $post_id);
+
+        if(!$is_teach) {
+            $teach->storeTeach($user->id, $post_id);
+            return back();
+        }
+        return back();
     }
 
     /**
@@ -51,17 +53,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, Post $post)
+    public function show($id)
     {
-        $login_user = auth()->user();
-        $timelines = $post->getUserTimeLine($user->id);
-        $post_count = $post->getPostCount($user->id);
-        
-        return view('users.show', [
-            'user'           => $user,
-            'timelines'      => $timelines,
-            'post_count'    => $post_count,
-        ]);
+        //
     }
 
     /**
@@ -93,8 +87,17 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Teach $teach)
     {
-        //
+        $user_id = $teach->user_id;
+        $post_id = $teach->post_id;
+        $teach_id = $teach->id;
+        $is_teach = $teach->isTeach($user_id, $post_id);
+
+        if($is_teach) {
+            $teach->destroyTeach($teach_id);
+            return back();
+        }
+        return back();
     }
 }

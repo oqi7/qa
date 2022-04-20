@@ -12,22 +12,43 @@
         @extends('layouts.app')　　　　　　　　　　　　　　　　　　
         
         @section('content')
-        <h1>Blog Name</h1>
+        
+        <div class='post'>
+            <p class="card-text">投稿者：{{ $post->user->id }}</p>
+            <h2 class='title'>{{ $post->title }}</h2>
+            <p class='body'>{{ $post->body }}</p>  
+            <p class='updated_at'>{{ $post->updated_at }}</p>
+        
+        
+        <div class="d-flex align-items-center">
+            @if (!in_array(Auth::user()->id, array_column($post->likes->toArray(), 'user_id'), TRUE))
+                <form method="POST" action="{{ url('likes/') }}" class="mb-0">
+                    @csrf
+
+                    <input type="hidden" name="post_id" value="{{ $post->id }}">
+                    <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-heart fa-fw"></i></button>
+                </form>
+            @else
+                <form method="POST" action="{{ url('likes/' .array_column($post->likes->toArray(), 'id', 'user_id')[Auth::user()->id]) }}" class="mb-0">
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit" class="btn p-0 border-0 text-danger"><i class="fas fa-heart fa-fw"></i></button>
+                </form>
+            @endif
+            <p class="mb-0 text-secondary">{{ count($post->likes) }}</p>
+        </div>
+        
         <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post" style="display:inline">
             @csrf
             @method('DELETE')
             <button type="submit" onclick="return checkDelete(this)">delete</button>
         </form>
-        <div class='post'>
-            <h2 class='title'>{{ $post->title }}</h2>
-                <p class='body'>{{ $post->body }}</p>  
-                <p class='updated_at'>{{ $post->updated_at }}</p>
-                <p class="edit">[<a href="/posts/{{ $post->id }}/edit">edit</a>]</p>
-        </div>
         
         <div class="back">
             <a href="/">戻る</a>
         </div>
+        
         <script>
             function checkDelete(){
                 const result = window.confirm("本当に削除しますか？");
