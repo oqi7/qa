@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Like;
+use App\Teach;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 
@@ -16,9 +17,11 @@ class PostController extends Controller
     
     public function show(Post $post)
     {
-        // return view('posts/show')->with(['post' => $post]);
         $like=Like::where('post_id', $post->id)->where('user_id', auth()->user()->id)->first();
         return view('posts/show', compact('post', 'like'));
+        
+        $teach=Teach::where('post_id', $post->id)->where('user_id', auth()->user()->id)->first();
+        return view('posts/show', compact('post', 'teach'));
     }
     
     public function edit(Post $post)
@@ -51,19 +54,22 @@ class PostController extends Controller
         $post->user_id = $user->id;
         $post->fill($input)->save();
         return redirect('/posts/' . $post->id);
-        
-        // $user = auth()->user();
-        // $data = $request->all();
-        
-        // $post->postStore($user->id, $data);
-
-        // return redirect('posts');
     }
     
     public function destroy(Post $post)
     {
         $post->delete();
         return redirect('/');
+    }
+    
+    public function getUserTimeLine(Int $user_id)
+    {
+        return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(50);
+    }
+
+    public function getPostCount(Int $user_id)
+    {
+        return $this->where('user_id', $user_id)->count();
     }
     
     public function search(Post $post)

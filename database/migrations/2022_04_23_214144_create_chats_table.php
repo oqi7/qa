@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDirectMessagesTable extends Migration
+class CreateChatsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateDirectMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('directmessages', function (Blueprint $table) {
+        Schema::create('chats', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('post_id')->unsigned();
+            $table->string('message');
             $table->string('questioner');
             $table->string('answerer');
-            $table->integer('public');
-            $table->integer('closed');
+            $table->boolean('public')->default(false);
+            $table->boolean('closed')->default(false);
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateDirectMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('directmessages');
+        Schema::dropIfExists('chats');
     }
 }

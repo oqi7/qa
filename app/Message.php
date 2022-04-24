@@ -14,4 +14,11 @@ class Message extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
+    protected $fillable = ['user_name','user_identifier','message'];
+
+    public function scopeGetData($query)
+    {
+        return $this->created_at . '　@' . $this->user_name . '　' . $this->message;
+    }
 }

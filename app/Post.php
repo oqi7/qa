@@ -27,6 +27,10 @@ class Post extends Model
         return $this->hasMany('App\Like');
     }
     
+    public function teachs() {
+        return $this->hasMany('App\Teach');
+    }
+    
     public function getUserTimeLine(Int $user_id)
     {
         return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC');

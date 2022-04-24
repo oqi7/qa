@@ -3,17 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Chat;
+use Illuminate\Support\Str;
 
-class DirectMessageController extends Controller
+class ChatController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('DirectMessages/index');
+        $length = Chat::all()->count();
+
+        $display = 5;
+
+        $chats = Chat::offset($length-$display)->limit($display)->get();
+        return view('chat/index',compact('chats'));
     }
 
     /**
@@ -34,7 +41,10 @@ class DirectMessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $chat = new Chat;
+        $form = $request->all();
+        $chat->fill($form)->save();
+        return redirect('/chat');
     }
 
     /**

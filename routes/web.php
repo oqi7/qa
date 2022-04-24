@@ -19,7 +19,12 @@ Route::group(['middleware' => 'auth'], function() {
     
     Route::resource('teaches', 'TeachController');
     
+    Route::resource('chat', 'ChatController');
+    
 });
+
+Route::get('/ajax/like/user_list', 'LikeController@user_list');
+Route::post('/ajax/like', 'LikeController@like');
 
 Auth::routes();
 
