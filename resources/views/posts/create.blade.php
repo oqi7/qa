@@ -8,23 +8,29 @@
         @extends('layouts.app')
 
         @section('content')
-            <div class="card-body">
-                <form method="POST" action={{ route('posts.store') }}>
-                    @csrf
-                    <div class="title">
-                        <h2>タイトル</h2>
-                        <input type="text" name="post[title]" placeholder="タイトル" value="{{ old('post.title') }}"/>
-                        <p class="title__error" style="color:red">{{ $errors->first('post.title') }}</p>
+        <div class="container">
+            <div class="row justify-content-start">
+            
+                <div class="card" style="width: 30rem;">
+                    <div class="card-body">
+                        <form method="POST" action={{ route('posts.store') }}>
+                            @csrf
+                            <div class="col mt-3">
+                                <input type="text" name="post[title]" placeholder="タイトル" value="{{ old('post.title') }}"/>
+                                <p class="title__error" style="color:red">{{ $errors->first('post.title') }}</p>
+                            </div>
+                            <div class="col-10">
+                                <textarea name="post[body]" placeholder="質問">{{ old('post.body') }}</textarea>
+                                <p class="body__error" style="color:red">{{ $errors->first('post.body') }}</p>
+                            </div>
+                            <input type="submit" value="投稿"/>
+                        </form>
+                        <div class="back">
+                            <a href="/">戻る</a>
+                        </div>
                     </div>
-                    <div class="body">
-                        <h2>質問</h2>
-                        <textarea name="post[body]" placeholder="本文">{{ old('post.body') }}</textarea>
-                        <p class="body__error" style="color:red">{{ $errors->first('post.body') }}</p>
-                    </div>
-                    <input type="submit" value="投稿"/>
-                </form>
+                </div>
             </div>
-            <div class="back"><a href="/">戻る</a></div>
         </div>
         @endsection
     </body>

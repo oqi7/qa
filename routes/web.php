@@ -23,9 +23,6 @@ Route::group(['middleware' => 'auth'], function() {
     
 });
 
-Route::get('/ajax/like/user_list', 'LikeController@user_list');
-Route::post('/ajax/like', 'LikeController@like');
-
 Auth::routes();
 
 Route::get('/', 'PostController@index')->name('index');

@@ -12,7 +12,7 @@
         @extends('layouts.app')　　　　　　　　　　　　　　　　　　
         
         @section('content')
-        <div class="content">
+        <div class="container">
             <div class="row justify-content-center mb-5">
                 <div class="col-md-8 mb-3">
                     <div class="card">
@@ -27,10 +27,10 @@
                             </div>
                         </div>
                         
-                        <div class='post'>
+                        <div class='card-body'>
                             <h3 class='title'>{{ $post->title }}</h3>
                             <p class='body'>{{ $post->body }}</p>  
-                            <p class='updated_at'>{{ $post->updated_at }}</p>
+                            
                         
                         
                             <div class="d-flex align-items-center">
@@ -55,7 +55,7 @@
                             <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post" style="display:inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-promary" onclick="return checkDelete(this)">削除</button>
+                                <button type="submit" class="btn btn-primary btn-sm" onclick="return checkDelete(this)">削除</button>
                             </form>
                             
                                 <div class="back">
