@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Post;
 
 class PostSeeder extends Seeder
 {
@@ -11,12 +12,15 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('posts')->insert([
-        
-        'title' => 'タイトル',
-        'body' => '質問です。',
-        'user_id' => 5,
-        'solved' => 1,
-        ]);
+        for ($i = 1; $i <= 10; $i++) {
+            Post::create([
+                'user_id'    => $i,
+                'title'      => 'タイトル' .$i,
+                'body'       => 'テスト投稿' .$i,
+                'solved'    => '1',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
     }
 }
