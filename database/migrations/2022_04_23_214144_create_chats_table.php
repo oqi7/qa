@@ -17,8 +17,8 @@ class CreateChatsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('post_id')->unsigned();
             $table->string('message');
-            $table->string('questioner');
-            $table->string('answerer');
+            $table->string('send');
+            $table->string('recieve');
             $table->boolean('public')->default(false);
             $table->boolean('closed')->default(false);
             $table->timestamps();

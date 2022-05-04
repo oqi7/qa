@@ -15,8 +15,8 @@ class ChatSeeder extends Seeder
             
             'post_id' => 1,
             'message' => 'hello',
-            'questioner' => 1,
-            'answerer' => 2,
+            'send' => 1,
+            'recieve' => 2,
             'public' => 1,
             'closed' => 1
         ]);

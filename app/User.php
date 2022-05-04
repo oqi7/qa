@@ -74,6 +74,12 @@ class User extends Authenticatable
             ->where('model', self::class);;
     }
     
+    public function teaches() 
+    {
+        return $this->hasMany('App\Teach')
+            ->where('model', self::class);;
+    }
+    
     public function getAllUsers(Int $user_id)
     {
         return $this->Where('id', '<>', $user_id)->paginate(10);

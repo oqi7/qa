@@ -15,7 +15,8 @@ class TeachesSeeder extends Seeder
         for ($i = 2; $i <= 10; $i++) {
             Teach::create([
                 'user_id' => 1,
-                'post_id' => $i
+                'post_id' => $i,
+                'is_teach' => 1
             ]);
         }
     }

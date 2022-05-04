@@ -102,10 +102,10 @@ class LikeController extends Controller
         return back();
     }
     
-    // public function user_list()
-    // {
+    public function user_list()
+    {
 
-    //      return $this->getUsers();
+         return $this->getUsers();
 
-    // }
+    }
 }

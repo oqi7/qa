@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Chat;
-use Illuminate\Support\Str;
 
 class ChatController extends Controller
 {
@@ -13,7 +12,7 @@ class ChatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $length = Chat::all()->count();
 
@@ -39,9 +38,10 @@ class ChatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Int $post_id)
     {
         $chat = new Chat;
+        
         $form = $request->all();
         $chat->fill($form)->save();
         return redirect('/chat');

@@ -27,13 +27,13 @@ class Post extends Model
         return $this->hasMany('App\Like');
     }
     
-    public function teachs() {
+    public function teaches() {
         return $this->hasMany('App\Teach');
     }
     
     public function getUserTimeLine(Int $user_id)
     {
-        return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC');
+        return $this->where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(50);
     }
 
     public function getPostCount(Int $user_id)
@@ -46,6 +46,15 @@ class Post extends Model
         $this->user_id = $user_id;
         $this->body = $data['body'];
         $this->save();
+
+        return;
+    }
+    
+    public function postUpdate(Int $post_id, Array $data)
+    {
+        $this->id = $post_id;
+        $this->body = $data['body'];
+        $this->update();
 
         return;
     }

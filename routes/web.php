@@ -13,13 +13,17 @@ Route::group(['middleware' => 'auth'], function() {
     
     Route::resource('users', 'UsersController');
     
+    Route::get('/posts/search','PostController@search');
+    Route::get('posts/{id}/teaches', 'PostController@teaches');
     Route::resource('posts', 'PostController');
     
     Route::resource('likes', 'LikeController');
     
     Route::resource('teaches', 'TeachController');
     
-    Route::resource('chat', 'ChatController');
+    Route::get('/chat/{recieve}' , 'ChatController@index')->name('chat');
+    Route::post('/chat/send' , 'ChatController@store')->name('chatSend');
+
     
 });
 

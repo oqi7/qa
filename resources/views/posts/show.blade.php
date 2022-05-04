@@ -19,8 +19,7 @@
                         <div class="card-haeder p-3 w-100 d-flex">
                             <img src="{{ asset('storage/profile_image/' .$post->user->profile_image) }}" class="rounded-circle" width="50" height="50">
                             <div class="ml-2 d-flex flex-column">
-                                <p class="mb-0">{{ $post->user->name }}</p>
-                                <a href="{{ url('users/' .$post->user->id) }}" class="text-secondary">{{ $post->user->screen_name }}</a>
+                                <a href="{{ url('users/' .$post->user->id) }}" class="text-secondary">{{ $post->user->name }}</a>
                             </div>
                             <div class="d-flex justify-content-end flex-grow-1">
                                 <p class="mb-0 text-secondary">{{ $post->created_at->format('Y-m-d H:i') }}</p>
@@ -31,15 +30,13 @@
                             <h3 class='title'>{{ $post->title }}</h3>
                             <p class='body'>{{ $post->body }}</p>  
                             
-                        
-                        
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-end">
                                 @if (!in_array(Auth::user()->id, array_column($post->likes->toArray(), 'user_id'), TRUE))
                                     <form method="POST" action="{{ url('likes/') }}" class="mb-0">
                                         @csrf
                     
                                         <input type="hidden" name="post_id" value="{{ $post->id }}">
-                                        <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-heart fa-fw"></i></button>
+                                        <button type="submit" class="btn p-0 border-0 text-secondary"><i class="fas fa-heart fa-fw"></i></button>
                                     </form>
                                 @else
                                     <form method="POST" action="{{ url('likes/' .array_column($post->likes->toArray(), 'id', 'user_id')[Auth::user()->id]) }}" class="mb-0">
@@ -52,21 +49,54 @@
                                 <p class="mb-0 text-secondary">{{ count($post->likes) }}</p>
                             </div>
                             
-                            <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post" style="display:inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-primary btn-sm" onclick="return checkDelete(this)">削除</button>
-                            </form>
+                            <div class="d-flex align-items-end">
+                                @if (!in_array(Auth::user()->id, array_column($post->teaches->toArray(), 'user_id'), TRUE))
+                                    <form method="POST" action="{{ url('teaches/') }}" class="mb-0">
+                                        @csrf
+                    
+                                        <input type="hidden" name="post_id" value="{{ $post->id }}">
+                                        <button type="submit" class="btn p-0 border-0 text-secondary"><i class="fas fa-graduation-cap fa-fw"></i></button>
+                                    </form>
+                                @else
+                                    <form method="POST" action="{{ url('teaches/' .array_column($post->teaches->toArray(), 'id', 'user_id')[Auth::user()->id]) }}" class="mb-0">
+                                        @csrf
+                                        @method('DELETE')
+                    
+                                        <button type="submit" class="btn p-0 border-0 text-primary"><i class="fas fa-graduation-cap fa-fw"></i></button>
+                                    </form>
+                                @endif
+                                <p class="mb-0 text-secondary">{{ count($post->teaches) }}</p>
+                                
+                                <a href="/posts/{{ $post->id }}/teaches">一覧</a>
+                            </div>
                             
-                                <div class="back">
-                                    <a href="/">戻る</a>
+                            @if ($post->user->id === Auth::user()->id)
+                                <div class="d-flex justify-content-end">
+                                    <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-fw"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <form method="POST" action="{{ url('posts/' .$post->id) }}" class="mb-0">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <a href="{{ url('posts/' .$post->id .'/edit') }}" class="dropdown-item">編集</a>
+                                            <button type="submit" class="dropdown-item del-btn" onclick="return checkDelete(this)">削除</button>
+                                        </form>
+                                    </div>
                                 </div>
+                            @endif
+                            
+                            <div class="back">
+                                <a href="/">戻る</a>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
-        
         </div>
+        
         <script>
             function checkDelete(){
                 const result = window.confirm("本当に削除しますか？");

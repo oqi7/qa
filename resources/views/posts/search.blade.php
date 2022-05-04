@@ -12,29 +12,35 @@
         @extends('layouts.app')　　　　　　　　　　　　　　　　　　
         
         @section('content')
-        <form class="mb-2 mt-4 text-center" method="GET" action="{{ route('users.index') }}">
-    <input class="form-control my-2 mr-5" type="search" placeholder="ユーザー名を入力" name="search" value="@if (isset($search)) {{ $search }} @endif">
-    <div class="d-flex justify-content-center">
-        <button class="btn btn-info my-2" type="submit">検索</button>
-        <button class="btn btn-secondary my-2 ml-5">
-            <a href="{{ route('users.index') }}" class="text-white">
-                クリア
-            </a>
-        </button>
-    </div>
-</form>
-
-@foreach($users as $user)
-    <a href="{{ route('users.show', ['user' => $user]) }}">
-        {{ $user->name }}
-    </a>
-@endforeach
-
-
-<div>
-　// 下記のようにページネーターを記述するとページネートで次ページに遷移しても、検索結果を保持する
-    {{ $institutions->appends(request()->input())->links() }}
-</div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-2">
+              <p class='posts'><a href='/posts'>ホーム</a></p>
+              <p class='search'><a href='/posts/search'>検索</a></p>
+              <p class='chat'><a href='/chat/{{ Auth::user()->id }}'>DM</a></p>
+              <p class='mypage'><a href='users/{{ Auth::user()->id }}'>マイページ</a></p>
+            </div>
+          
+            <div class="col-md-10">
+              <p>検索結果</p>
+              @if(isset($posts))
+                <table class="table">
+                  <tr>
+                    <th>タイトル</th><th>本文</th>
+                  </tr>
+                  @foreach($posts as $post)
+                    <tr>
+                      <td>{{$post->title}}</td><td>{{$post->body}}</td>
+                    </tr>
+                  @endforeach
+                </table>
+              @endif
+              @if(!empty($message))
+                <div class="alert alert-primary" role="alert">{{ $message }}</div>
+              @endif
+            </div>
+          </div>
+        </div>
         @endsection
     </body>
 </html>

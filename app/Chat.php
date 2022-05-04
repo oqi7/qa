@@ -10,7 +10,7 @@ class Chat extends Model
 
     public function scopeGetData($query)
     {
-        return $this->timestamps . '　@' . $this->user_name . '　' . $this->message;
+        return $this->timestamps . $this->user_name . '　' . $this->message;
     }
     
     public function post()
@@ -20,7 +20,7 @@ class Chat extends Model
     
     public function user()
     {
-        return $this->belongsTo(User::class, 'questioner');
-        return $this->belongsTo(User::class, 'answerer');
+        return $this->belongsTo(User::class, 'send');
+        return $this->belongsTo(User::class, 'recieve');
     }
 }

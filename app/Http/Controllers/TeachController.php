@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\User;
 use App\Teach;
 
-class TeachesController extends Controller
+
+class TeachController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Teach $teach, User $user)
     {
         //
     }
@@ -76,7 +78,7 @@ class TeachesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Teach $teach)
     {
         //
     }
@@ -99,5 +101,12 @@ class TeachesController extends Controller
             return back();
         }
         return back();
+    }
+    
+    public function user_list()
+    {
+
+         return $this->getUsers();
+
     }
 }

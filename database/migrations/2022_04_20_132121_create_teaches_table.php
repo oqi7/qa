@@ -17,6 +17,7 @@ class CreateTeachesTable extends Migration
         $table->increments('id');
         $table->unsignedBigInteger('post_id')->nullable();
         $table->unsignedBigInteger('user_id')->nullable();
+        $table->boolean('is_teach')->default(false);
         $table->timestamps();
         
         $table->index('id');
